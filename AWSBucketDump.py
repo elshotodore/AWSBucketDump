@@ -17,12 +17,12 @@ import sys
 import os
 import shutil
 import traceback
-from queue import Queue
 from threading import Thread, Lock
+from multiprocessing import Manager
+manager = Manager()
 
-
-bucket_q = Queue()
-download_q = Queue()
+bucket_q = manager.Queue()
+download_q = manager.Queue()
 
 grep_list=None
 
