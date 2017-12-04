@@ -11,3 +11,5 @@ csv
 confidential
 invoice
 ssn
+txt
+html

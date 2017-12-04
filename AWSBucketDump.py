@@ -18,11 +18,15 @@ import os
 import shutil
 import traceback
 from threading import Thread, Lock
-from multiprocessing import Manager
-manager = Manager()
+#from multiprocessing import Manager
+#manager = Manager()
 
-bucket_q = manager.Queue()
-download_q = manager.Queue()
+#bucket_q = manager.Queue()
+#download_q = manager.Queue()
+
+from queue import Queue
+bucket_q = Queue()
+download_q = Queue()
 
 grep_list=None
 
@@ -53,6 +57,7 @@ def downloadWorker():
     while True:
         item = download_q.get()
         try:
+            print("Item".item)
             downloadFile(item)
         except Exception as e:
             traceback.print_exc(file=sys.stdout)
@@ -74,6 +79,7 @@ def get_make_directory_return_filename_path(url):
     directory = arguments.savedir
     for i in range(2,len(bits)-1):
         directory = os.path.join(directory, bits[i])
+        print("Directory".directory)
     try:
         get_directory_lock()
         if not os.path.isdir(directory):
@@ -97,7 +103,7 @@ def release_interesting_file_lock():
 def write_interesting_file(filepath):
     try:
         get_interesting_file_lock()
-        with open('interesting_file.txt', 'ab+') as interesting_file:
+        with open('interesting_file_TEST.txt', 'ab+') as interesting_file:
             interesting_file.write(filepath.encode('utf-8'))
             interesting_file.write('\n'.encode('utf-8'))
     finally:
