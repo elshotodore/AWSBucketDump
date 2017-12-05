@@ -34,7 +34,7 @@ grep_list=None
 arguments = None
 
 def fetch(url):
-    print('fetching ' + url)
+    print('Fetching ' + url)
     response = requests.get(url)
     if response.status_code == 403 or response.status_code == 404:
         status403(url)
