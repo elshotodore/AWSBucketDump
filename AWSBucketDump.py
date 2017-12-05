@@ -18,15 +18,16 @@ import os
 import shutil
 import traceback
 from threading import Thread, Lock
-#from multiprocessing import Manager
-#manager = Manager()
+# python 2.7
+from multiprocessing import Manager
+manager = Manager()
+bucket_q = manager.Queue()
+download_q = manager.Queue()
 
-#bucket_q = manager.Queue()
-#download_q = manager.Queue()
-
-from queue import Queue
-bucket_q = Queue()
-download_q = Queue()
+# python 3
+#from queue import Queue
+#bucket_q = Queue()
+#download_q = Queue()
 
 grep_list=None
 
@@ -103,7 +104,7 @@ def release_interesting_file_lock():
 def write_interesting_file(filepath):
     try:
         get_interesting_file_lock()
-        with open('interesting_file_TEST.txt', 'ab+') as interesting_file:
+        with open('interesting_file_20171205.txt', 'ab+') as interesting_file:
             interesting_file.write(filepath.encode('utf-8'))
             interesting_file.write('\n'.encode('utf-8'))
     finally:
